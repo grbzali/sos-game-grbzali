@@ -12,6 +12,15 @@ public class Sos {
     private String currentPlayer;
     private char currentPlayerMark;
     private int scoreComputer;
+
+    public int getScoreComputer() {
+        return scoreComputer;
+    }
+
+    public int getScoreHuman() {
+        return scoreHuman;
+    }
+
     private int scoreHuman;
 
     Random rand = new Random();
@@ -71,8 +80,10 @@ public class Sos {
             }
             System.out.println("");
         }
+        System.out.println("");
         System.out.println("Computer Score:" + scoreComputer);
         System.out.println("Your Score:" + scoreHuman);
+        System.out.println("");
     }
 
     public void changePlayerAndMark() {
@@ -108,12 +119,12 @@ public class Sos {
     }
 
     public boolean checkWin() {
-        System.out.println("chech win");
+
         return (checkRowWin() || checkColWin() || checkDiagonalWin());
     }
 
     private boolean checkColWin() {
-        System.out.println("col check method");
+
         for (int row = 0; row < boardSize-2; row++) {
             for (int col= 0; col < boardSize; col++) {
                 if (board[row][col] == 'S' && board[row+1][col] == 'O' && board[row+2][col] == 'S'){
@@ -131,7 +142,7 @@ public class Sos {
     }
 
     private boolean checkRowWin() {
-        System.out.println("row check method");
+
         for (int row = 0; row < boardSize; row++) {
             for (int col = 0; col < boardSize - 2; col++) {
                 if (board[row][col] == 'S' && board[row][col + 1] == 'O' && board[row][col + 2] == 'S') {
@@ -149,7 +160,7 @@ public class Sos {
     }
 
     private boolean checkDiagonalWin() {
-        System.out.println("diagonal check method");
+
 //        for (int row = 0; row < boardSize - 2; row++) {
 //            for (int col = 0; col < boardSize - 2; col++) {
 //                if (board[row][col] == 'S' && board[row + 1][col + 1] == 'O' && board[row + 2][col + 2] == 'S') {

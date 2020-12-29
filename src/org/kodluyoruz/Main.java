@@ -10,16 +10,14 @@ public class Main {
         System.out.println("Board size you want to play?");
         int boardSize = 0;
         do {
-            System.out.println("Please enter a between 1-7 number!");
+            System.out.println("Please enter a between 3-7 number!");
             while (!scan.hasNextInt()) {
-                System.out.println("Please enter a between 1-7 number!");
+                System.out.println("Please enter a between 3-7 number!");
                 scan.next();
             }
             boardSize = scan.nextInt();
-        } while (boardSize <= 0  || boardSize > 7);
+        } while (boardSize < 3  || boardSize > 7);
         System.out.println("Board size is " + boardSize + ".");
-
-        System.out.println(boardSize);
 
         Sos game = new Sos(boardSize);
 
@@ -29,40 +27,44 @@ public class Main {
         while (!game.isBoardFull()) {
 
             if (game.getCurrentPlayer().equals("human")) {
-
-                try {
-                    System.out.println("min:1 max:" + game.getBoardSize() + " rowInput");
-                    rowInput = scan.nextInt() - 1;
-                    System.out.println("min:1 max:" + game.getBoardSize() + " colInput");
-                    colInput = scan.nextInt() - 1;
-                    System.out.println("colInput:"+colInput+" rowInput:"+rowInput);
-                    if (!(colInput+1 >= 1 && rowInput +1>=1 && rowInput+1 <= game.getBoardSize() && colInput+1 <= game.getBoardSize() )) {
-                        System.out.println("Invalid value...Please 1-" + game.getBoardSize());
-                        continue;
+                do {
+                    System.out.println("Please enter a between 1-"+ boardSize +" row number!");
+                    while (!scan.hasNextInt()) {
+                        System.out.println("Please enter a between 1-"+ boardSize + " row number!");
+                        scan.next();
                     }
+                    rowInput = scan.nextInt()-1;
+                } while (rowInput + 1 < 1  || rowInput + 1 > boardSize);
 
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid value");
-
-                }
+                do {
+                    System.out.println("Please enter a between 1-"+ boardSize + " column number!");
+                    while (!scan.hasNextInt()) {
+                        System.out.println("Please enter a between 1-"+ boardSize + " column number!");
+                        scan.next();
+                    }
+                    colInput = scan.nextInt()-1;
+                } while (colInput + 1 < 1  || colInput + 1 > boardSize);
 
                 game.markBoard(rowInput, colInput);
 
                 game.checkWin();
-                System.out.println("---------------human------------------------");
+
 
             }
             else {
                 game.markBoardRandom();
-
                 game.checkWin();
-                System.out.println("---------------computer-------------------------");
             }
             game.changePlayerAndMark();
             game.showBoard();
             System.out.println("Computer played. Your turn...");
         }
-
+        System.out.println("Game Over");
+        System.out.println("Computer Score:" + game.getScoreComputer());
+        System.out.println("Your Score:" + game.getScoreHuman());
+        if(game.getScoreComputer()> game.getScoreHuman()) System.out.println("You lost :(");
+        else if (game.getScoreComputer()==game.getScoreHuman()) System.out.println("Draw -_-");
+        else System.out.println("Congratulations! You won");
     }
 }
 
