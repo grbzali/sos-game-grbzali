@@ -1,6 +1,5 @@
 package org.kodluyoruz;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -51,39 +50,22 @@ public class Main {
                     } while (colInput + 1 <= 0 || colInput + 1 > boardSize);
 
 
-                }while (!game.markBoard(rowInput,colInput));
-                game.markBoard(rowInput, colInput);
+                } while (!game.markBoard(rowInput, colInput));
 
-                game.checkWin();
+                game.markBoard(rowInput, colInput);
+                if(game.checkWin()) System.out.println("SCORE! ONCE AGAIN");
+                else game.changePlayer();
+
             } else {
                 game.markBoardRandom();
-                game.checkWin();
+                if(game.checkWin()) System.out.println("SCORE! COMPUTER AGAIN");
+                else game.changePlayer();
             }
-            game.changePlayerAndMark();
+
             game.showBoard();
-            System.out.println("");
+            System.out.println();
         }
-        System.out.println("------------------------------");
-        System.out.println("GAME OVER");
-        System.out.println("------------------------------");
-        System.out.println("Computer Score:" + game.getScoreComputer());
-        System.out.println("Your Score:" + game.getScoreHuman());
-        System.out.println("------------------------------");
-        if (game.getScoreComputer() > game.getScoreHuman()) {
-            System.out.println("------------------------------");
-            System.out.println("You lost :(");
-            System.out.println("------------------------------");
-        }
-        else if (game.getScoreComputer() == game.getScoreHuman()){
-            System.out.println("------------------------------");
-            System.out.println("Draw -_-");
-            System.out.println("------------------------------");
-        }
-        else {
-            System.out.println("------------------------------");
-            System.out.println("Congratulations! You won");
-            System.out.println("------------------------------");
-        }
+        game.endGame();
     }
 }
 
