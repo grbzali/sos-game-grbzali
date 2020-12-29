@@ -19,8 +19,8 @@ public class Main {
             boardSize = scan.nextInt();
         } while (boardSize < 3 || boardSize > 7);
         Sos game = new Sos(boardSize);
-        game.showBoard();
         game.createBoard();
+        game.showBoard();
         int rowInput = 0;
         int colInput = 0;
         while (!game.isBoardFull()) {
