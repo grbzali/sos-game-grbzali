@@ -1,13 +1,19 @@
 package org.kodluyoruz;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Sos {
 
     private char[][] board;
+    private List<String> scories = new ArrayList<String>();
     private final int boardSize;
     private String currentPlayer;
     private char currentPlayerMark;
+    private int scoreComputer;
+    private int scoreHuman;
+
     Random rand = new Random();
 
     public int getBoardSize() {
@@ -26,12 +32,12 @@ public class Sos {
 
         this.boardSize = boardSize;
 
-        if (rand.nextInt(2) == 0) this.currentPlayer = "computer";
-        else this.currentPlayer = "human";
-
-        if (rand.nextInt(2) == 0) this.currentPlayerMark = 'S';
-        else this.currentPlayerMark = 'O';
-
+        //if (rand.nextInt(2) == 0) this.currentPlayer = "computer";
+        //else this.currentPlayer = "human";
+        this.currentPlayer = "human";
+        //if (rand.nextInt(2) == 0) this.currentPlayerMark = 'S';
+        //else this.currentPlayerMark = 'O';
+        this.currentPlayerMark = 'S';
     }
 
 
@@ -60,12 +66,13 @@ public class Sos {
         System.out.println("");
         for (int i = 0; i < boardSize; i++) {
             System.out.print("| ");
-            for (int j = 0; j <= boardSize; j++) {
-                System.out.println();
-                System.out.print(board[i][j + 1] + " | ");
+            for (int j = 0; j < boardSize; j++) {
+                System.out.print(board[i][j] + " | ");
             }
             System.out.println("");
         }
+        System.out.println("Computer Score:" + scoreComputer);
+        System.out.println("Your Score:" + scoreHuman);
     }
 
     public void changePlayerAndMark() {
@@ -84,7 +91,7 @@ public class Sos {
 
         if (board[randomRow][randomCol] == '-') {
             board[randomRow][randomCol] = currentPlayerMark;
-            System.out.println("Computer played. Your turn...");
+
             return true;
         } else {
             markBoardRandom();
@@ -101,37 +108,98 @@ public class Sos {
     }
 
     public boolean checkWin() {
+        System.out.println("chech win");
         return (checkRowWin() || checkColWin() || checkDiagonalWin());
     }
 
     private boolean checkColWin() {
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize - 2; j++) {
-                if (board[j][i] == 'S' && board[j + 1][i] == 'O' && board[j + 2][i] == 'S') return true;
+        System.out.println("col check method");
+        for (int row = 0; row < boardSize-2; row++) {
+            for (int col= 0; col < boardSize; col++) {
+                if (board[row][col] == 'S' && board[row+1][col] == 'O' && board[row+2][col] == 'S'){
+                    String scoreCoord = Integer.toString(row) + Integer.toString(col) + Integer.toString(row+2) + Integer.toString(col);
+                    if(isContainArray(scoreCoord)) ;
+                    else {
+                        if (currentPlayer.equals("computer")) scoreComputer += 1;
+                        else scoreHuman += 1;
+                        scories.add(scoreCoord);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkRowWin() {
+        System.out.println("row check method");
+        for (int row = 0; row < boardSize; row++) {
+            for (int col = 0; col < boardSize - 2; col++) {
+                if (board[row][col] == 'S' && board[row][col + 1] == 'O' && board[row][col + 2] == 'S') {
+                    String scoreCoord = Integer.toString(row) + Integer.toString(col) + Integer.toString(row) + Integer.toString(col+2);
+                    if(isContainArray(scoreCoord)) ;
+                    else {
+                        if (currentPlayer.equals("computer")) scoreComputer += 1;
+                        else scoreHuman += 1;
+                        scories.add(scoreCoord);
+                    }
+                }
             }
         }
         return false;
     }
 
     private boolean checkDiagonalWin() {
-        for (int i = 0; i < boardSize - 2; i++) {
-            for (int j = 0; j < boardSize - 2; j++) {
-                if (board[i][j] == 'S' && board[i + 1][j + 1] == 'O' && board[i + 2][j + 2] == 'S') return true;
+        System.out.println("diagonal check method");
+//        for (int row = 0; row < boardSize - 2; row++) {
+//            for (int col = 0; col < boardSize - 2; col++) {
+//                if (board[row][col] == 'S' && board[row + 1][col + 1] == 'O' && board[row + 2][col + 2] == 'S') {
+//                    String scoreCoord = Integer.toString(row) + Integer.toString(col) + Integer.toString(row+2) + Integer.toString(col+2);
+//                    if(isContainArray(scoreCoord)) ;
+//                    else {
+//                        if (currentPlayer.equals("computer")) scoreComputer += 1;
+//                        else scoreHuman += 1;
+//                        scories.add(scoreCoord);
+//                    }
+//                }
+//            }
+//        }
+
+        for (int row = 1; row < boardSize-1; row++) {
+            for (int col = 1; col < boardSize-1; col++) {
+                if (board[row][col] == 'O'){
+                    if (board[row-1][col-1] == 'S' && board[row+1][col+1] == 'S') {
+                        String scoreCoord = Integer.toString(row-1) + Integer.toString(col-1) + Integer.toString(row+1) + Integer.toString(col+1);
+                        if(!isContainArray(scoreCoord)) {
+                            if (currentPlayer.equals("computer")) scoreComputer += 1;
+                            else scoreHuman += 1;
+                            scories.add(scoreCoord);
+                        }
+                    }
+                    if (board[row+1][col] == 'S' && board[row][col+1] == 'S') {
+                        String scoreCoord = Integer.toString(row+1) + Integer.toString(col) + Integer.toString(row) + Integer.toString(col+1);
+                        if(!isContainArray(scoreCoord)) {
+                            if (currentPlayer.equals("computer")) scoreComputer += 1;
+                            else scoreHuman += 1;
+                            scories.add(scoreCoord);
+                        }
+                    }
+                }
             }
         }
-
-        //add reverse dioganal****
 
         return false;
 
     }
 
-    private boolean checkRowWin() {
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize - 2; j++) {
-                if (board[i][j] == 'S' && board[i][j + 1] == 'O' && board[i][j + 2] == 'S') return true;
-            }
+    public boolean isContainArray(String scoreCoord){
+
+        for (String score:scories) {
+            if(score.equals(scoreCoord)) return true;
         }
+
         return false;
     }
+
+
+
 }
