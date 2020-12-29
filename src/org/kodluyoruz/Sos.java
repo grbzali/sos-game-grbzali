@@ -41,12 +41,12 @@ public class Sos {
 
         this.boardSize = boardSize;
 
-        //if (rand.nextInt(2) == 0) this.currentPlayer = "computer";
-        //else this.currentPlayer = "human";
-        this.currentPlayer = "human";
-        //if (rand.nextInt(2) == 0) this.currentPlayerMark = 'S';
-        //else this.currentPlayerMark = 'O';
-        this.currentPlayerMark = 'S';
+        if (rand.nextInt(2) == 0) this.currentPlayer = "computer";
+        else this.currentPlayer = "human";
+        //this.currentPlayer = "human";
+        if (rand.nextInt(2) == 0) this.currentPlayerMark = 'S';
+        else this.currentPlayerMark = 'O';
+        //this.currentPlayerMark = 'S';
     }
 
 
@@ -111,11 +111,13 @@ public class Sos {
     }
 
     public boolean markBoard(int row, int col) {
-        if (board[row][col] == '-') {
+
+        if (!(board[row][col] == '-')) {
+            return false;
+        } else {
             board[row][col] = currentPlayerMark;
             return true;
-        } else return false;
-
+        }
     }
 
     public boolean checkWin() {
@@ -125,11 +127,11 @@ public class Sos {
 
     private boolean checkColWin() {
 
-        for (int row = 0; row < boardSize-2; row++) {
-            for (int col= 0; col < boardSize; col++) {
-                if (board[row][col] == 'S' && board[row+1][col] == 'O' && board[row+2][col] == 'S'){
-                    String scoreCoord = Integer.toString(row) + Integer.toString(col) + Integer.toString(row+2) + Integer.toString(col);
-                    if(isContainArray(scoreCoord)) ;
+        for (int row = 0; row < boardSize - 2; row++) {
+            for (int col = 0; col < boardSize; col++) {
+                if (board[row][col] == 'S' && board[row + 1][col] == 'O' && board[row + 2][col] == 'S') {
+                    String scoreCoord = Integer.toString(row) + Integer.toString(col) + Integer.toString(row + 2) + Integer.toString(col);
+                    if (isContainArray(scoreCoord)) ;
                     else {
                         if (currentPlayer.equals("computer")) scoreComputer += 1;
                         else scoreHuman += 1;
@@ -146,8 +148,8 @@ public class Sos {
         for (int row = 0; row < boardSize; row++) {
             for (int col = 0; col < boardSize - 2; col++) {
                 if (board[row][col] == 'S' && board[row][col + 1] == 'O' && board[row][col + 2] == 'S') {
-                    String scoreCoord = Integer.toString(row) + Integer.toString(col) + Integer.toString(row) + Integer.toString(col+2);
-                    if(isContainArray(scoreCoord)) ;
+                    String scoreCoord = Integer.toString(row) + Integer.toString(col) + Integer.toString(row) + Integer.toString(col + 2);
+                    if (isContainArray(scoreCoord)) ;
                     else {
                         if (currentPlayer.equals("computer")) scoreComputer += 1;
                         else scoreHuman += 1;
@@ -175,20 +177,20 @@ public class Sos {
 //            }
 //        }
 
-        for (int row = 1; row < boardSize-1; row++) {
-            for (int col = 1; col < boardSize-1; col++) {
-                if (board[row][col] == 'O'){
-                    if (board[row-1][col-1] == 'S' && board[row+1][col+1] == 'S') {
-                        String scoreCoord = Integer.toString(row-1) + Integer.toString(col-1) + Integer.toString(row+1) + Integer.toString(col+1);
-                        if(!isContainArray(scoreCoord)) {
+        for (int row = 1; row < boardSize - 1; row++) {
+            for (int col = 1; col < boardSize - 1; col++) {
+                if (board[row][col] == 'O') {
+                    if (board[row - 1][col - 1] == 'S' && board[row + 1][col + 1] == 'S') {
+                        String scoreCoord = Integer.toString(row - 1) + Integer.toString(col - 1) + Integer.toString(row + 1) + Integer.toString(col + 1);
+                        if (!isContainArray(scoreCoord)) {
                             if (currentPlayer.equals("computer")) scoreComputer += 1;
                             else scoreHuman += 1;
                             scories.add(scoreCoord);
                         }
                     }
-                    if (board[row+1][col] == 'S' && board[row][col+1] == 'S') {
-                        String scoreCoord = Integer.toString(row+1) + Integer.toString(col) + Integer.toString(row) + Integer.toString(col+1);
-                        if(!isContainArray(scoreCoord)) {
+                    if (board[row + 1][col] == 'S' && board[row][col + 1] == 'S') {
+                        String scoreCoord = Integer.toString(row + 1) + Integer.toString(col) + Integer.toString(row) + Integer.toString(col + 1);
+                        if (!isContainArray(scoreCoord)) {
                             if (currentPlayer.equals("computer")) scoreComputer += 1;
                             else scoreHuman += 1;
                             scories.add(scoreCoord);
@@ -202,15 +204,14 @@ public class Sos {
 
     }
 
-    public boolean isContainArray(String scoreCoord){
+    public boolean isContainArray(String scoreCoord) {
 
-        for (String score:scories) {
-            if(score.equals(scoreCoord)) return true;
+        for (String score : scories) {
+            if (score.equals(scoreCoord)) return true;
         }
 
         return false;
     }
-
 
 
 }
