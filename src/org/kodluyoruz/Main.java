@@ -11,9 +11,9 @@ public class Main {
         System.out.println("Board size you want to play?");
         int boardSize = 0;
         do {
-            System.out.println("Please enter a between 3-7 number!");
+            System.out.println("Please enter a between 3-7 number for board size!");
             while (!scan.hasNextInt()) {
-                System.out.println("Please enter a between 3-7 number!");
+                System.out.println("a letter???...Please enter a between 3-7 NUMBER!!!");
                 scan.next();
             }
             boardSize = scan.nextInt();
@@ -28,6 +28,7 @@ public class Main {
         int colInput = 10;
         while (!game.isBoardFull()) {
             if (game.getCurrentPlayer().equals("human")) {
+                System.out.println("Your turn...Your Mark: '" + game.getCurrentPlayerMark() + "'");
                 do {
                     System.out.println("Please enter a empty cell for mark!");
                     do {
@@ -61,8 +62,9 @@ public class Main {
             }
             game.changePlayerAndMark();
             game.showBoard();
-            System.out.println("------------------------------");
-            System.out.println("Computer played. Your turn...");
+
+            System.out.println("Computer played");
+            System.out.println("");
         }
         System.out.println("------------------------------");
         System.out.println("GAME OVER");
