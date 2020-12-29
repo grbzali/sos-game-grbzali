@@ -1,5 +1,6 @@
 package org.kodluyoruz;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -17,13 +18,11 @@ public class Main {
             }
             boardSize = scan.nextInt();
         } while (boardSize < 3 || boardSize > 7);
-
         Sos game = new Sos(boardSize);
-
-        game.createBoard();
         game.showBoard();
-        int rowInput = 10;
-        int colInput = 10;
+        game.createBoard();
+        int rowInput = 0;
+        int colInput = 0;
         while (!game.isBoardFull()) {
             if (game.getCurrentPlayer().equals("human")) {
                 System.out.println("Your turn...");
@@ -45,23 +44,20 @@ public class Main {
                             System.out.println("a letter???...Please enter a between 1-" + boardSize + " column NUMBER!!!");
                             scan.next();
                         }
-
                         colInput = scan.nextInt() - 1;
                     } while (colInput + 1 <= 0 || colInput + 1 > boardSize);
 
-
-                } while (!game.markBoard(rowInput, colInput));
-
+                }while (!game.markBoard(rowInput,colInput));
                 game.markBoard(rowInput, colInput);
-                if(game.checkWin()) System.out.println("SCORE! ONCE AGAIN");
-                else game.changePlayer();
 
+                if(game.checkWin()) System.out.println("SCORE! ONCE AGAIN ");
+                else game.changePlayerAndMark();
             } else {
                 game.markBoardRandom();
-                if(game.checkWin()) System.out.println("SCORE! COMPUTER AGAIN");
-                else game.changePlayer();
+                if(game.checkWin()) System.out.println("SCORE!");
+                else game.changePlayerAndMark();
             }
-
+            game.checkWin();
             game.showBoard();
             System.out.println();
         }

@@ -43,10 +43,12 @@ public class Sos {
 
         if (rand.nextInt(2) == 0) this.currentPlayer = "computer";
         else this.currentPlayer = "human";
-
+        //this.currentPlayer = "human";
         if (rand.nextInt(2) == 0) this.currentPlayerMark = 'S';
         else this.currentPlayerMark = 'O';
+        //this.currentPlayerMark = 'S';
     }
+
 
     public boolean isBoardFull() {
 
@@ -72,23 +74,23 @@ public class Sos {
     public void showBoard() {
         System.out.print("   ");
         for (int i = 0; i < boardSize; i++) {
-            System.out.print(" " + (i + 1) + "  ");
+            System.out.print(" "+(i+1) + "  ");
         }
         System.out.println();
         for (int i = 0; i < boardSize; i++) {
-            System.out.print((i + 1) + " | ");
+            System.out.print((i+1) + " | ");
             for (int j = 0; j < boardSize; j++) {
                 System.out.print(board[i][j] + " | ");
             }
             System.out.println();
         }
-        if (currentPlayer.equals("human")) System.out.println("Your Mark: '" + currentPlayerMark + "'");
+        if(currentPlayer.equals("human")) System.out.println("Your Mark: '" + currentPlayerMark + "'");
         System.out.println("Computer Score:" + scoreComputer);
         System.out.println("Your Score:" + scoreHuman);
         System.out.println("------------------------------");
     }
 
-    public void changePlayer() {
+    public void changePlayerAndMark() {
 
         if (currentPlayer.equals("computer")) currentPlayer = "human";
         else currentPlayer = "computer";
@@ -98,17 +100,18 @@ public class Sos {
 
     }
 
-    public void markBoardRandom() {
+    public boolean markBoardRandom() {
         int randomRow = rand.nextInt(boardSize);
         int randomCol = rand.nextInt(boardSize);
 
         if (board[randomRow][randomCol] == '-') {
             board[randomRow][randomCol] = currentPlayerMark;
 
+            return true;
         } else {
             markBoardRandom();
         }
-
+        return false;
     }
 
     public boolean markBoard(int row, int col) {
@@ -122,6 +125,7 @@ public class Sos {
     }
 
     public boolean checkWin() {
+
         return (checkRowWin() || checkColWin() || checkDiagonalWin());
     }
 
@@ -164,7 +168,6 @@ public class Sos {
     }
 
     private boolean checkDiagonalWin() {
-
         for (int row = 1; row < boardSize - 1; row++) {
             for (int col = 1; col < boardSize - 1; col++) {
                 if (board[row][col] == 'O') {
@@ -177,14 +180,13 @@ public class Sos {
                             return true;
                         }
                     }
-                    if (board[row + 1][col] == 'S' && board[row][col + 1] == 'S') {
-                        String scoreCoord = Integer.toString(row + 1) + col + row + (col + 1);
+                    if (board[row + 1][col-1] == 'S' && board[row-1][col + 1] == 'S') {
+                        String scoreCoord = Integer.toString(row + 1) + (col - 1) + (row - 1) + (col + 1);
                         if (!isScore(scoreCoord)) {
                             if (currentPlayer.equals("computer")) scoreComputer += 1;
                             else scoreHuman += 1;
                             scories.add(scoreCoord);
                             return true;
-
                         }
                     }
                 }
@@ -192,9 +194,7 @@ public class Sos {
         }
 
         return false;
-
     }
-
     public boolean isScore(String scoreCoord) {
 
         for (String score : scories) {
@@ -203,8 +203,7 @@ public class Sos {
 
         return false;
     }
-
-    public void endGame() {
+    public void endGame(){
         System.out.println("------------------------------");
         System.out.println("GAME OVER");
         System.out.println("------------------------------");
@@ -213,18 +212,20 @@ public class Sos {
         System.out.println("------------------------------");
         if (scoreComputer > scoreHuman) {
             System.out.println("------------------------------");
-            System.out.println("YOU LOST :(");
-            System.out.println("------------------------------");
-        } else if (scoreComputer == scoreHuman) {
-            System.out.println("------------------------------");
-            System.out.println("DRAW GAME-_-");
-            System.out.println("------------------------------");
-        } else {
-            System.out.println("------------------------------");
-            System.out.println("CONGRATULATIONS! YOU WIN");
+            System.out.println("You lost :(");
             System.out.println("------------------------------");
         }
-
+        else if (scoreComputer == scoreHuman){
+            System.out.println("------------------------------");
+            System.out.println("Draw -_-");
+            System.out.println("------------------------------");
+        }
+        else {
+            System.out.println("------------------------------");
+            System.out.println("Congratulations! You won");
+            System.out.println("------------------------------");
+        }
     }
+
 
 }
