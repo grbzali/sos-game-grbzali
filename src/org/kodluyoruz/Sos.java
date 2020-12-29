@@ -72,19 +72,18 @@ public class Sos {
     }
 
     public void showBoard() {
-        System.out.println("");
+        System.out.print("   ");
         for (int i = 0; i < boardSize; i++) {
-            System.out.print("  "+(i+1) + " ");
+            System.out.print(" "+(i+1) + "  ");
         }
         System.out.println("");
         for (int i = 0; i < boardSize; i++) {
-            System.out.print("| ");
+            System.out.print((i+1) + " | ");
             for (int j = 0; j < boardSize; j++) {
                 System.out.print(board[i][j] + " | ");
             }
             System.out.println("");
         }
-        System.out.println("------------------------------");
         if(currentPlayer.equals("human")) System.out.println("Your Mark: '" + currentPlayerMark + "'");
         System.out.println("Computer Score:" + scoreComputer);
         System.out.println("Your Score:" + scoreHuman);

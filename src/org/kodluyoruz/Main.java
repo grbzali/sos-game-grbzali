@@ -18,7 +18,6 @@ public class Main {
             }
             boardSize = scan.nextInt();
         } while (boardSize < 3 || boardSize > 7);
-        System.out.println("Board size is " + boardSize + ".");
 
         Sos game = new Sos(boardSize);
 
@@ -28,7 +27,7 @@ public class Main {
         int colInput = 10;
         while (!game.isBoardFull()) {
             if (game.getCurrentPlayer().equals("human")) {
-                System.out.println("Your turn...Your Mark: '" + game.getCurrentPlayerMark() + "'");
+                System.out.println("Your turn...");
                 do {
                     System.out.println("Please enter a empty cell for mark!");
                     do {
@@ -62,8 +61,6 @@ public class Main {
             }
             game.changePlayerAndMark();
             game.showBoard();
-
-            System.out.println("Computer played");
             System.out.println("");
         }
         System.out.println("------------------------------");
